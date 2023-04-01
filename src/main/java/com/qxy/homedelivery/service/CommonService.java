@@ -14,4 +14,14 @@ public interface CommonService {
      * @param user
      */
     void sendMsg(User user);
+<<<<<<< HEAD
+=======
+
+    /**
+     * 清除菜品缓存
+     *
+     * @param key
+     */
+    void clearDishRedisCache(String key);
+>>>>>>> v1.0
 }

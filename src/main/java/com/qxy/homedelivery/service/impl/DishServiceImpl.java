@@ -3,6 +3,10 @@ package com.qxy.homedelivery.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+<<<<<<< HEAD
+=======
+import com.qxy.homedelivery.annotation.ClearDishCache;
+>>>>>>> v1.0
 import com.qxy.homedelivery.constants.OperateConstant;
 import com.qxy.homedelivery.dao.DishMapper;
 import com.qxy.homedelivery.dto.DishDTO;
@@ -11,9 +15,17 @@ import com.qxy.homedelivery.entity.Dish;
 import com.qxy.homedelivery.entity.DishFlavor;
 import com.qxy.homedelivery.exception.CustomException;
 import com.qxy.homedelivery.service.CategoryService;
+<<<<<<< HEAD
 import com.qxy.homedelivery.service.DishFlavorService;
 import com.qxy.homedelivery.service.DishService;
 import com.qxy.homedelivery.vo.DishVO;
+=======
+import com.qxy.homedelivery.service.CommonService;
+import com.qxy.homedelivery.service.DishFlavorService;
+import com.qxy.homedelivery.service.DishService;
+import com.qxy.homedelivery.vo.DishVO;
+import lombok.extern.slf4j.Slf4j;
+>>>>>>> v1.0
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +39,10 @@ import java.util.Objects;
  * @Introduction:
  */
 @Service
+<<<<<<< HEAD
+=======
+@Slf4j
+>>>>>>> v1.0
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
     @Autowired
     DishService dishService;
@@ -38,10 +54,20 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     CategoryService categoryService;
 
     @Autowired
+<<<<<<< HEAD
+=======
+    CommonService commonService;
+
+    @Autowired
+>>>>>>> v1.0
     DishMapper dishMapper;
 
     @Override
     @Transactional
+<<<<<<< HEAD
+=======
+    @ClearDishCache
+>>>>>>> v1.0
     @SuppressWarnings("all")
     public void saveWithFlavors(DishDTO dishDTO) {
         //检查该菜品是否已存在
@@ -69,6 +95,15 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //todo 保存菜品对应的口味信息
         List<DishFlavor> dishFlavors = saveFlavors(dishDTO.getFlavors(), dish);
         dishFlavorService.saveBatch(dishFlavors);
+<<<<<<< HEAD
+=======
+
+        ////TODO 精确清除菜品缓存
+        //Long categoryId = dish.getCategoryId();
+        //String key = RedisConstant.PREFIX_DISH + categoryId + ":" + dish.getStatus();
+        //log.info("新增菜品,清除缓存");
+        //commonService.clearDishRedisCache(key);
+>>>>>>> v1.0
     }
 
     @Override
@@ -80,6 +115,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    @ClearDishCache
+>>>>>>> v1.0
     public void updateWithFlavors(DishDTO dishDTO) {
         //todo 1.修改菜品表
         Dish dish = new Dish();
@@ -106,10 +145,17 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //再添加
         List<DishFlavor> dishFlavors = saveFlavors(dishDTO.getFlavors(), dish);
         dishFlavorService.saveBatch(dishFlavors);
+<<<<<<< HEAD
 
     }
 
     @Override
+=======
+    }
+
+    @Override
+    @ClearDishCache
+>>>>>>> v1.0
     public void disableBatchByIds(Integer status, List<Long> ids) {
         for (Long id : ids) {
             LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
@@ -119,6 +165,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    @ClearDishCache
+>>>>>>> v1.0
     public void deleteBatchByIds(List<Long> ids) {
         //todo 删除菜品:在售不能删除,停售才能删除
         //检查菜品是否已经停售
