@@ -1,0 +1,47 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    # 应用的名称，选择性配置
+    name: 湖师送餐到家服务
+  #数据库配置
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: root
+
+#mybatis-plus设置
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    # 把SQL的查询的过程输出到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID #id类型-uuid
+  mapper-locations: classpath:mapper/*.xml #xml文件地址
+
+#自定义常量
+constant:
+  #本系统用户名和密码
+  username: admin
+  password: 123456
+  #本地存储图片相关
+  basePath: C:/Users/SayHello/Desktop/reggie/
+  #七牛云存储图片相关
+  qiniucloud:
+    ACCESS_KEY: Z-QwHcSNyonqJrbu3ai0SbTWbXeXm51q4Ho5-JQw #七牛云 → 密钥管理 → AccessKey
+    SECRET_KEY: 323_o4bcwTg2qMPHmtqN2YkBjMQqyUAiYDtuFHf_ #七牛云 → 密钥管理 → SecretKey
+    BUCKET: blue-shawn #七牛云 → 对象存储 → 空间管理 → 【空间名称】
+    URL: http://rqty8o8sj.hn-bkt.clouddn.com/ #七牛云域名
+
+#短信配置
+SMSCloud:
+  AssessKey:
+  Secret:
+
+

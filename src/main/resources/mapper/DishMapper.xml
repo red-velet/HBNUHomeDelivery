@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxy.reggie.dao.DishMapper">
+    <resultMap id="dishVOMap" type="com.qxy.reggie.vo.DishVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="price" property="price"/>
+        <result column="image" property="image"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <collection column="id"
+                    property="flavors"
+                    ofType="com.qxy.reggie.entity.DishFlavor"
+                    javaType="list"
+                    select="com.qxy.reggie.dao.DishFlavorMapper.findById"/>
+    </resultMap>
+    <sql id="sql">
+        `id`
+        ,`name`,category_id,price,code,image,description status,sort
+    </sql>
+    <select id="getDishWithFlavorsById" resultMap="dishVOMap">
+        select *
+        from dish
+        where id = #{id};
+    </select>
+</mapper>
