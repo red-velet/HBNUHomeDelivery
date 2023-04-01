@@ -81,6 +81,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setStatus(1);
             userMapper.insert(user);
         }
+        //3.登录成功,保存登录状态
         //3.登录成功,清除redis的验证码,保存登录状态
         redisTemplate.delete(RedisConstant.PREFIX_VALIDATE_CODE + phone);
         log.info("登录成功,redis缓存中的验证码已被清除");

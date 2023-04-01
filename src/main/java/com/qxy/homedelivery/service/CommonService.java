@@ -15,6 +15,7 @@ public interface CommonService {
      */
     void sendMsg(User user);
 
+
     /**
      * 清除菜品缓存
      *

@@ -30,6 +30,7 @@ import java.util.Objects;
  * @Introduction:
  */
 @Service
+
 @Slf4j
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
     @Autowired
@@ -42,6 +43,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     CategoryService categoryService;
 
     @Autowired
+
     CommonService commonService;
 
     @Autowired
@@ -121,6 +123,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //再添加
         List<DishFlavor> dishFlavors = saveFlavors(dishDTO.getFlavors(), dish);
         dishFlavorService.saveBatch(dishFlavors);
+
     }
 
     @Override
@@ -133,8 +136,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         }
     }
 
-    @Override
+
     @ClearDishCache
+    @Override
     public void deleteBatchByIds(List<Long> ids) {
         //todo 删除菜品:在售不能删除,停售才能删除
         //检查菜品是否已经停售

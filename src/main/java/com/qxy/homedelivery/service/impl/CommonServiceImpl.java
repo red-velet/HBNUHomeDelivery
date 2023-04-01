@@ -1,5 +1,6 @@
 package com.qxy.homedelivery.service.impl;
 
+
 import com.qxy.homedelivery.constants.RedisConstant;
 import com.qxy.homedelivery.entity.User;
 import com.qxy.homedelivery.service.CommonService;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class CommonServiceImpl implements CommonService {
+
     @Autowired
     RedisTemplate redisTemplate;
 
@@ -33,6 +35,7 @@ public class CommonServiceImpl implements CommonService {
         if (StringUtils.isEmpty(phone)) {
             throw new RuntimeException("手机号为空");
         }
+
         //2.判断该手机号是否已经发送过验证码,5分钟内不重复发送
         Object cacheValidateCode = redisTemplate.opsForValue().get(RedisConstant.PREFIX_VALIDATE_CODE + phone);
         if (Objects.nonNull(cacheValidateCode)) {

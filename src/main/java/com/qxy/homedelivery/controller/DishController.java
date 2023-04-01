@@ -157,6 +157,7 @@ public class DishController {
     //    List<Dish> dishes = dishService.list(wrapper);
     //    return R.success(dishes);
     //}
+
     //@GetMapping("list")
     //@ApiOperation("根据分类id查询菜品信息集合")
     //public R<List<DishVO>> listDishById(Dish dish) {
@@ -184,6 +185,7 @@ public class DishController {
     @ApiOperation("根据分类id查询菜品信息集合")
     public R<List<DishVO>> listDishById(Dish dish) {
         log.info("dish:{}", dish);
+        //TODO 根据分类id查询菜品信息集合
         List<DishVO> list = null;
         //TODO 根据分类id查询菜品信息集合 v1.0
         //1.先查询redis缓存
