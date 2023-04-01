@@ -22,10 +22,10 @@ import java.net.UnknownHostException;
 @ServletComponentScan
 @MapperScan("com.qxy.homedelivery.dao")
 @EnableTransactionManagement
-public class ReggieApplication {
+public class HomeDeliveryApplication {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(ReggieApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(HomeDeliveryApplication.class, args);
         Environment env = applicationContext.getEnvironment();
         try {
             log.info("\n❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️\n\t" +

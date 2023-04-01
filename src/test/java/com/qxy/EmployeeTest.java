@@ -1,6 +1,6 @@
 package com.qxy;
 
-import com.qxy.homedelivery.ReggieApplication;
+import com.qxy.homedelivery.HomeDeliveryApplication;
 import com.qxy.homedelivery.dao.EmployeeMapper;
 import com.qxy.homedelivery.entity.Employee;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @Date: 2023/3/18 23:11
  * @Introduction:
  */
-@SpringBootTest(classes = ReggieApplication.class)
+@SpringBootTest(classes = HomeDeliveryApplication.class)
 @RunWith(SpringRunner.class)
 public class EmployeeTest {
     @Autowired
