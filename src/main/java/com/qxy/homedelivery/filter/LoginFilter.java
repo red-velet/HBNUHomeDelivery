@@ -86,8 +86,7 @@ public class LoginFilter implements Filter {
             httpServletResponse.getWriter().write(JSON.toJSONString(R.error(Constant.NOT_LOGIN)));
         }
     }
-<<<<<<< HEAD
-=======
+
 
     //@Autowired
     //RedisTemplate redisTemplate;
@@ -151,5 +150,4 @@ public class LoginFilter implements Filter {
     //        httpServletResponse.getWriter().write(JSON.toJSONString(R.error(Constant.NOT_LOGIN)));
     //    }
     //}
->>>>>>> v1.0
 }

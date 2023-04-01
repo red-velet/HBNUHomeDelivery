@@ -26,11 +26,7 @@ import java.time.LocalDateTime;
 @ApiModel("实体类-公共属性实体")
 public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 8624420608683238094L;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> v1.0
     @ApiModelProperty("主键id")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

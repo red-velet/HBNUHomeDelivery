@@ -1,28 +1,18 @@
 package com.qxy.homedelivery.service.impl;
 
-<<<<<<< HEAD
-=======
+
 import com.qxy.homedelivery.constants.RedisConstant;
->>>>>>> v1.0
 import com.qxy.homedelivery.entity.User;
 import com.qxy.homedelivery.service.CommonService;
 import com.qxy.homedelivery.utils.ValidateCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
->>>>>>> v1.0
 
 /**
  * @Author: SayHello
@@ -32,13 +22,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class CommonServiceImpl implements CommonService {
-<<<<<<< HEAD
-=======
+
     @Autowired
     RedisTemplate redisTemplate;
 
 
->>>>>>> v1.0
     @Override
     public void sendMsg(User user) {
         //TODO 发送验证码
@@ -47,18 +35,7 @@ public class CommonServiceImpl implements CommonService {
         if (StringUtils.isEmpty(phone)) {
             throw new RuntimeException("手机号为空");
         }
-<<<<<<< HEAD
-        //2.生成验证码
-        String validateCode = ValidateCodeUtil.generateValidateCode(4).toString();
 
-        //3.调用短信通道商接口发送短信
-        //SMSUtil.sendMessage(SMSConstant.SIGN_NAME, SMSConstant.TEMPLATE_CODE, user.getPhone(), validateCode);
-        log.info("validateCode:{}", validateCode);
-
-        //4.存储短信到session中
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        request.getSession().setAttribute(phone, validateCode);
-=======
         //2.判断该手机号是否已经发送过验证码,5分钟内不重复发送
         Object cacheValidateCode = redisTemplate.opsForValue().get(RedisConstant.PREFIX_VALIDATE_CODE + phone);
         if (Objects.nonNull(cacheValidateCode)) {
@@ -85,6 +62,5 @@ public class CommonServiceImpl implements CommonService {
         //TODO 清空redis菜品缓存
         redisTemplate.delete(key);
         log.info("菜品数据发送变化:清除缓存 - {}", key);
->>>>>>> v1.0
     }
 }

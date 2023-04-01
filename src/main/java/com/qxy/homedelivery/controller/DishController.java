@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qxy.homedelivery.annotation.CommonFields;
 import com.qxy.homedelivery.common.R;
 import com.qxy.homedelivery.constants.OperateConstant;
-<<<<<<< HEAD
-=======
 import com.qxy.homedelivery.constants.RedisConstant;
->>>>>>> v1.0
 import com.qxy.homedelivery.dto.DishDTO;
 import com.qxy.homedelivery.entity.Category;
 import com.qxy.homedelivery.entity.Dish;
@@ -22,19 +19,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.data.redis.core.RedisTemplate;
->>>>>>> v1.0
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-=======
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
->>>>>>> v1.0
 
 /**
  * @Author: SayHello
@@ -166,8 +157,7 @@ public class DishController {
     //    List<Dish> dishes = dishService.list(wrapper);
     //    return R.success(dishes);
     //}
-<<<<<<< HEAD
-=======
+
     //@GetMapping("list")
     //@ApiOperation("根据分类id查询菜品信息集合")
     //public R<List<DishVO>> listDishById(Dish dish) {
@@ -191,14 +181,11 @@ public class DishController {
     @Autowired
     RedisTemplate redisTemplate;
 
->>>>>>> v1.0
     @GetMapping("list")
     @ApiOperation("根据分类id查询菜品信息集合")
     public R<List<DishVO>> listDishById(Dish dish) {
         log.info("dish:{}", dish);
-<<<<<<< HEAD
         //TODO 根据分类id查询菜品信息集合
-=======
         List<DishVO> list = null;
         //TODO 根据分类id查询菜品信息集合 v1.0
         //1.先查询redis缓存
@@ -211,7 +198,6 @@ public class DishController {
             return R.success(list);
         }
         //2.缓存没有再去查询数据库
->>>>>>> v1.0
         LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
         wrapper
                 .eq(Dish::getCategoryId, dish.getCategoryId())
@@ -219,21 +205,14 @@ public class DishController {
                 .orderByAsc(Dish::getSort)
                 .orderByDesc(Dish::getUpdateTime);
         List<Dish> dishes = dishService.list(wrapper);
-<<<<<<< HEAD
-        List<DishVO> list = new ArrayList<>();
-=======
         list = new ArrayList<>();
->>>>>>> v1.0
         for (Dish dish1 : dishes) {
             DishVO dishVO = dishService.getDishWithFlavorsById(dish1.getId());
             list.add(dishVO);
         }
-<<<<<<< HEAD
-=======
         //3.将查询到的结果添加到缓存
         redisTemplate.opsForValue().set(key, list, RedisConstant.DISH_TIME, TimeUnit.MINUTES);
         log.info("移动端查询分类菜品走的数据库");
->>>>>>> v1.0
         return R.success(list);
     }
 }
