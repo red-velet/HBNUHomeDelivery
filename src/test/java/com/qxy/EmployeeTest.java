@@ -1,8 +1,8 @@
 package com.qxy;
 
-import com.qxy.reggie.ReggieApplication;
-import com.qxy.reggie.dao.EmployeeMapper;
-import com.qxy.reggie.entity.Employee;
+import com.qxy.homedelivery.ReggieApplication;
+import com.qxy.homedelivery.dao.EmployeeMapper;
+import com.qxy.homedelivery.entity.Employee;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
