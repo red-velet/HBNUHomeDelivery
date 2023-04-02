@@ -38,4 +38,14 @@ public class RedisConstant {
      * 套餐有效期
      */
     public static final int SETMEAL_TIME = 60;
+
+    /**
+     * 临时图片名前缀
+     */
+    public static final String PREFIX_IMG_TMP = "HBNUHomeDelivery:Image:Tmp";
+
+    /**
+     * 存入数据库的图片名前缀
+     */
+    public static final String PREFIX_IMG_DB = "HBNUHomeDelivery:Image:DB";
 }

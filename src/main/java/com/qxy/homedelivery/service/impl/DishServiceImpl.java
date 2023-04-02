@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qxy.homedelivery.annotation.ClearDishCache;
 import com.qxy.homedelivery.constants.OperateConstant;
+import com.qxy.homedelivery.constants.RedisConstant;
 import com.qxy.homedelivery.dao.DishMapper;
 import com.qxy.homedelivery.dto.DishDTO;
 import com.qxy.homedelivery.entity.Category;
@@ -18,6 +19,7 @@ import com.qxy.homedelivery.service.DishService;
 import com.qxy.homedelivery.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Autowired
     DishMapper dishMapper;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Override
     @Transactional
@@ -85,6 +90,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //String key = RedisConstant.PREFIX_DISH + categoryId + ":" + dish.getStatus();
         //log.info("新增菜品,清除缓存");
         //commonService.clearDishRedisCache(key);
+        //将图片名存储到redis中
+        redisTemplate.opsForSet().add(RedisConstant.PREFIX_IMG_DB, dish.getImage());
     }
 
     @Override
@@ -123,7 +130,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //再添加
         List<DishFlavor> dishFlavors = saveFlavors(dishDTO.getFlavors(), dish);
         dishFlavorService.saveBatch(dishFlavors);
-
+        //将图片名存储到redis中
+        redisTemplate.opsForSet().add(RedisConstant.PREFIX_IMG_DB, dish.getImage());
     }
 
     @Override

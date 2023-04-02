@@ -1,11 +1,14 @@
 package com.qxy.homedelivery.controller;
 
 import com.qxy.homedelivery.common.R;
+import com.qxy.homedelivery.constants.RedisConstant;
 import com.qxy.homedelivery.utils.QiNiuCloudUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +31,9 @@ public class CommonController {
 
     @Value("${constant.qiniucloud.URL}")
     private String URL;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @PostMapping("upload")
     @ApiOperation("图片上传")
@@ -57,6 +63,8 @@ public class CommonController {
         //todo 方法2：图片转存到七牛云
         try {
             QiNiuCloudUtil.upload2QiNiu(imgFile.getBytes(), fileName);
+            //将图片名存储到redis中
+            redisTemplate.opsForSet().add(RedisConstant.PREFIX_IMG_TMP, fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
