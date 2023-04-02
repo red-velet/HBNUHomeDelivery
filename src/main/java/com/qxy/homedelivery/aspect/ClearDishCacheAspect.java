@@ -23,7 +23,7 @@ public class ClearDishCacheAspect {
     @Autowired
     RedisTemplate redisTemplate;
 
-    //@AfterReturning(pointcut = "@annotation(com.qxy.reggie.annotation.ClearDishCache)")
+    //@AfterReturning(pointcut = "@annotation(com.qxy.homedelivery.annotation.ClearDishCache)")
     //public void afterEvent(JoinPoint joinPoint) {
     //    //TODO 方式1 全部清除菜品缓存
     //    Set keys = redisTemplate.keys(RedisConstant.PREFIX_DISH + "*");
@@ -59,10 +59,10 @@ public class ClearDishCacheAspect {
     }
 
     //@AfterReturning("" +
-    //        "execution(* com.qxy.reggie.service.impl.DishServiceImpl.save*(..)) || " +
-    //        "execution(* com.qxy.reggie.service.impl.DishServiceImpl.update*(..)) ||" +
-    //        "execution(* com.qxy.reggie.service.impl.DishServiceImpl.delete*(..)) ||" +
-    //        "execution(* com.qxy.reggie.service.impl.DishServiceImpl.disable*(..))")
+    //        "execution(* com.qxy.homedelivery.service.impl.DishServiceImpl.save*(..)) || " +
+    //        "execution(* com.qxy.homedelivery.service.impl.DishServiceImpl.update*(..)) ||" +
+    //        "execution(* com.qxy.homedelivery.service.impl.DishServiceImpl.delete*(..)) ||" +
+    //        "execution(* com.qxy.homedelivery.service.impl.DishServiceImpl.disable*(..))")
     //public void afterEvent2(JoinPoint joinPoint) {
     //    //TODO 方式2 全部清除菜品缓存
     //    Set keys = redisTemplate.keys(RedisConstant.PREFIX_DISH + "*");

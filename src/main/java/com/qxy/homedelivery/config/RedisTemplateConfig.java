@@ -1,10 +1,10 @@
 package com.qxy.homedelivery.config;
 
+import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 
 /**
  * @Author: SayHello
@@ -17,7 +17,7 @@ public class RedisTemplateConfig {
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         //设置key的序列化器,不设置则会使用jdk默认的key序列花旗:JdkSerializationRedisSerializer
-        redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setKeySerializer(new GenericFastJsonRedisSerializer());
         redisTemplate.setConnectionFactory(connectionFactory);
         return redisTemplate;
     }

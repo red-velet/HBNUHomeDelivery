@@ -29,4 +29,13 @@ public class RedisConstant {
      * 菜品有效期
      */
     public static final int DISH_TIME = 60;
+    /**
+     * 套餐信息
+     */
+    public static final String PREFIX_SETMEAL = "HBNUHomeDelivery:SetMeal:";
+
+    /**
+     * 套餐有效期
+     */
+    public static final int SETMEAL_TIME = 60;
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qxy.homedelivery.annotation.CommonFields;
 import com.qxy.homedelivery.common.R;
 import com.qxy.homedelivery.constants.OperateConstant;
+import com.qxy.homedelivery.constants.RedisConstant;
 import com.qxy.homedelivery.dto.SetMealDTO;
 import com.qxy.homedelivery.entity.Category;
 import com.qxy.homedelivery.entity.Dish;
@@ -23,11 +24,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: SayHello
@@ -49,6 +52,9 @@ public class SetMealController {
 
     @Autowired
     SetMealDishService setMealDishService;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
     @PostMapping()
@@ -156,13 +162,28 @@ public class SetMealController {
     //    SetMealVO setMealVO = setMealService.getSetMealWithDishesById(setMeal.getId());
     //    return R.success(setMealVO.getSetmealDishes());
     //}
+    
     @GetMapping("list")
     @ApiOperation("根据分类id查询套餐信息集合")
     public R<List<SetMeal>> listById(@RequestParam("categoryId") Long id, @RequestParam("status") Integer status) {
         //TODO 根据类型查询分类信息集合
+        //todo 新增redis缓存
+        List<SetMeal> list = null;
+        String key = RedisConstant.PREFIX_SETMEAL + id + ":" + status;
+        list = (List<SetMeal>) redisTemplate.opsForValue().get(key);
+        if (Objects.nonNull(list)) {
+            log.info("移动端查询分类套餐走的缓存");
+            //查看到再给套餐缓存续命
+            redisTemplate.expire(key, RedisConstant.SETMEAL_TIME, TimeUnit.MINUTES);
+            return R.success(list);
+        }
+
         LambdaQueryWrapper<SetMeal> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SetMeal::getCategoryId, id).eq(SetMeal::getStatus, status);
-        List<SetMeal> list = setMealService.list(wrapper);
+        list = setMealService.list(wrapper);
+        //将查询到的结果添加到缓存
+        redisTemplate.opsForValue().set(key, list, RedisConstant.SETMEAL_TIME, TimeUnit.MINUTES);
+        log.info("移动端查询分类套餐走的数据库");
         return R.success(list);
     }
 
@@ -170,10 +191,23 @@ public class SetMealController {
     @ApiOperation("根据套餐id查询包含菜品集合")
     public R<List<SetMealDishVO>> listById(@PathVariable("id") Long setmealId) {
         //TODO 根据类型查询分类信息集合
+        //todo 新增redis缓存
+        //走缓存
+        List<SetMealDishVO> setMealVOList = null;
+        String key = RedisConstant.PREFIX_SETMEAL + setmealId;
+        setMealVOList = (List<SetMealDishVO>) redisTemplate.opsForValue().get(key);
+        if (Objects.nonNull(setMealVOList)) {
+            log.info("移动端查询分类套餐走的缓存");
+            //查看到再给套餐缓存续命
+            redisTemplate.expire(key, RedisConstant.SETMEAL_TIME, TimeUnit.MINUTES);
+            return R.success(setMealVOList);
+        }
+
+        //查数据库
         LambdaQueryWrapper<SetMealDish> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SetMealDish::getSetmealId, setmealId);
         List<SetMealDish> list = setMealDishService.list(wrapper);
-        List<SetMealDishVO> setMealVOList = new ArrayList<>();
+        setMealVOList = new ArrayList<>();
         for (SetMealDish setMealDish : list) {
             SetMealDishVO setMealDishVO = new SetMealDishVO();
             BeanUtils.copyProperties(setMealDish, setMealDishVO);
@@ -184,6 +218,9 @@ public class SetMealController {
             Dish dish = dishService.getById(dishId);
             setMealVOList.get(i).setImage(dish.getImage());
         }
+        //将查询到的结果添加到缓存
+        redisTemplate.opsForValue().set(key, setMealVOList, RedisConstant.SETMEAL_TIME, TimeUnit.MINUTES);
+        log.info("移动端查询分类套餐走的数据库");
         return R.success(setMealVOList);
     }
 }
